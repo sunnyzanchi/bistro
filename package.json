@@ -1,0 +1,14 @@
+{
+  "name": "giga",
+  "version": "0.1.0",
+  "description": "Gigawatt generator - scaffolding with speed",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "scaffolding"
+  ],
+  "author": "Zanchi",
+  "license": "MIT"
+}
