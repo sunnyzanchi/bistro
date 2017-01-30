@@ -45,6 +45,7 @@ jspm_packages
 
 # Yarn Integrity file
 .yarn-integrity
+<<<<<<< HEAD
 
 # Bundles
 public/*
@@ -54,3 +55,5 @@ public/*
 
 # Google Drive App Creds
 client_id.json
+=======
+>>>>>>> 55dd2480b13202a749cf7a20b56bd614b5b6433b
