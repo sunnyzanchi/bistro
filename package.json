@@ -1,7 +1,7 @@
 {
-  "name": "giga",
+  "name": "bistro",
   "version": "0.1.0",
-  "description": "Gigawatt generator - scaffolding with speed",
+  "description": "Scaffolding application",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -10,5 +10,10 @@
     "scaffolding"
   ],
   "author": "Zanchi",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "boxd": "^0.1.0",
+    "inquirer": "^3.0.1",
+    "nunjucks": "^3.0.0"
+  }
 }
