@@ -1,5 +1,5 @@
 {# Hapi Server #}
-{$ if server === 'Hapi' $}
+{% if server === 'Hapi' %}
   const Hapi = require('hapi');
   const server = new Hapi.Server(3000);
 
@@ -16,10 +16,10 @@
 
     console.log(`Server running at ${server.info.uri}`);
   });
-{$ endif $}
+{% endif %}
 
 {# Express Server #}
-{$ if server === 'Express' $}
+{% if server === 'Express' %}
   const express = require('express');
   const app = express();
 
@@ -30,10 +30,10 @@
   app.listen(3000, function(){
     console.log('Server running');
   });
-{$ endif $}
+{% endif %}
 
 {# Koa Server #}
-{$ if server === 'Koa' $}
+{% if server === 'Koa' %}
   const koa = require('koa');
   const app = koa();
 
@@ -42,4 +42,4 @@
   });
 
   app.listen(3000);
-{$ endif $}
+{% endif %}

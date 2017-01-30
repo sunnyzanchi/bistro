@@ -14,8 +14,6 @@ class Bistro{
       trimBlocks: true,
       lstripBlocks: true,
       tags: {
-        blockStart: '{$',
-        blockEnd: '$}',
         variableStart: '{<',
         variableEnd: '>}'
       }
