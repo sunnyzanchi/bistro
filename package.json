@@ -13,6 +13,7 @@
   "license": "MIT",
   "dependencies": {
     "boxd": "^0.1.0",
+    "glob": "^7.1.1",
     "inquirer": "^3.0.1",
     "nunjucks": "^3.0.0"
   }

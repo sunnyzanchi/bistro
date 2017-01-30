@@ -1,16 +1,8 @@
 const boxd = require('boxd');
+const fs = require('fs');
 const nunjucks = require('nunjucks');
-
-var raw = `{
-  "name": "{<appName>}",
-  "description": "{<description>}",
-  "dependencies": {
-    "{<server | lower>}": "*"
-  },
-  "devDependencies": {
-  }
-}
-`;
+const path = require('path');
+const glob = require('glob');
 
 class Bistro{
   constructor(vars){
@@ -41,8 +33,19 @@ class Bistro{
   cook(){
     console.log(boxd([' ★ Welcome to Bistro! ★ ', 'v0.1.0'], {centered: true}));
 
-    var result = this.nj.renderString(raw, this.vars);
-    console.log(result);
+    glob('./recipe/**', {nodir: true}, interpolate.bind(this));
+
+    function interpolate(err, files){
+      if(err) throw err;
+
+      for(let file of files){
+        this.nj.render(path.resolve(file), this.vars, function(err, res){
+          console.log(res);
+
+          //TODO: write files out with the same directory structure
+        });
+      }
+    }
   }
 }
 
