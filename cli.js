@@ -16,8 +16,8 @@ const cmd = {
   },
 
   /* Use the saved recipe and generate a new project */
-  cook([recipe]){
-    if(recipe) console.log(recipe);
+  cook({_: args, ...flags}){
+    if(args) console.log(args);
     else
     inquirer.prompt([
       {
@@ -39,7 +39,8 @@ const cmd = {
       '':'',
       'Options': '',
       '-------': '',
-      '-v --version': 'Diplay version and exit'
+      '-v --version': 'Diplay version and exit',
+      '-s --silent': 'Don\'t display output'
     };
 
     console.log(cols(text,  {showHeaders: false, maxWidth: process.stdout.columns - 13}));
@@ -49,17 +50,15 @@ const cmd = {
 // Version
 if(args.v || args.version){
   console.log(pkg.version);
-  return;
+  process.exit();
 }
 
-if(!args.s) // Silent flag
+if(!args.s && !args.silent) // Silent flag
   console.log(boxd([' ★ Welcome to Bistro! ★ ', 'v' + pkg.version],
                   {centered: true, consoleCentered: true}));
 
 // Check if command exists
-if(cmd[args._[0]]){
-  args._.slice(1);
-  cmd[args._[0]](args);
-}
+if(cmd[args._[0]]) cmd[args._[0]](args);
+
 // If it doesn't, show help message
 else cmd.help();

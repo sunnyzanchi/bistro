@@ -2,6 +2,7 @@ const fs = require('fs');
 const nunjucks = require('nunjucks');
 const path = require('path');
 const glob = require('glob');
+const mkdirp = require('mkdirp');
 
 class Bistro{
   constructor(vars){
@@ -34,10 +35,20 @@ class Bistro{
       if(err) throw err;
 
       for(let file of files){
+        console.log(file);
         this.nj.render(path.resolve(file), this.vars, function(err, res){
-          console.log(res);
+          if(err) throw(err);
 
-          //TODO: write files out with the same directory structure
+          file = file.replace('./recipe/', '');
+
+          var dir = path.dirname(file)
+          mkdirp(dir, function(err){
+            if(err) throw(err);
+
+            fs.writeFile(file, res, 'utf8', function(err){
+              if(err) throw err;
+            });
+          });
         });
       }
     }
