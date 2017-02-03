@@ -17,7 +17,6 @@
     console.log(`Server running at ${server.info.uri}`);
   });
 {% endif %}
-
 {# Express Server #}
 {% if server === 'Express' %}
   const express = require('express');
@@ -31,7 +30,6 @@
     console.log('Server running');
   });
 {% endif %}
-
 {# Koa Server #}
 {% if server === 'Koa' %}
   const koa = require('koa');
