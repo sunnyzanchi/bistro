@@ -3,30 +3,69 @@
 const boxd = require('boxd');
 const chalk = require('chalk');
 const cols = require('columnify');
+const fs = require('fs');
 const inquirer = require('inquirer');
+const mkdirp = require('mkdirp');
+const os = require('os');
+const path = require('path');
 const pkg = require('./package.json');
+const sanitize = require('sanitize-filename');
 
 const args = require('minimist')(process.argv.slice(2));
 
 // All commands
 const cmd = {
   /* Create a new recipe to be used later */
-  create(){
+  create({_: args}){
+    args.shift();
+    const home = path.join(os.homedir(), 'bistro');
 
+    if(args.length) createRecipe({name: args[0]});
+    else{
+      inquirer.prompt([{
+        message: 'Enter your recipe\'s name',
+        name: 'name',
+        type: 'input',
+        filter: sanitize
+      }]).then(createRecipe);
+    }
+
+    function createRecipe({name}){
+      const recipePath = path.join(home, name);
+
+      if(fs.existsSync(recipePath)){
+        console.log('A recipe already exists with this name!');
+        console.log('Use bistro' + chalk.cyan(' update') + ' [name] to update it');
+        return;
+      }
+      mkdirp(path.join(home, name));
+    }
   },
 
   /* Use the saved recipe and generate a new project */
-  cook({_: args, ...flags}){
-    if(args) console.log(args);
-    else
-    inquirer.prompt([
-      {
-        message: 'What would you like today?',
-        name: 'recipe',
-        type: 'list',
-        choices: ['Testing', 'Another test']
-      }
-    ]).then(answers=>{});
+  cook({_: args}){
+    args.shift();
+    const home = path.join(os.homedir(), 'bistro');
+
+    if(args.length){
+      console.log(args);
+    }
+    else{
+      const recipes = fs.readdirSync(home);
+      inquirer.prompt([
+        {
+          message: 'What would you like today?',
+          name: 'recipe',
+          type: 'list',
+          choices: recipes
+        }
+      ]).then(answers=>{});
+    }
+  },
+
+  /* Update an already created recipe */
+  update(){
+
   },
 
   /* Show the options and commands */

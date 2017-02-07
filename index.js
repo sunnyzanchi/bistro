@@ -35,9 +35,8 @@ class Bistro{
       if(err) throw err;
 
       for(let file of files){
-        console.log(file);
         this.nj.render(path.resolve(file), this.vars, function(err, res){
-          if(err) throw(err);
+          if(err) return err;
 
           file = file.replace('./recipe/', '');
 
