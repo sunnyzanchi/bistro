@@ -21,7 +21,6 @@
     "inquirer": "^3.0.1",
     "minimist": "^1.2.0",
     "mkdirp": "^0.5.1",
-    "ncp": "^2.0.0",
     "nunjucks": "^3.0.0",
     "sanitize-filename": "^1.6.1"
   }

@@ -6,7 +6,6 @@ const cols = require('columnify');
 const fs = require('fs');
 const inquirer = require('inquirer');
 const mkdirp = require('mkdirp');
-const ncp = require('ncp').ncp;
 const os = require('os');
 const path = require('path');
 const pkg = require('./package.json');
@@ -42,9 +41,6 @@ const cmd = {
 
       mkdirp(path.join(home, name));
       console.log(recipePath);
-      ncp('./', recipePath, function(err){
-        if(err) console.log(err);
-      });
     }
   },
 
@@ -76,9 +72,7 @@ const cmd = {
         console.log(indexPath);
         const index = require(indexPath);
       }
-      ncp(recipePath, './', function(err){
-        if(err) console.log(err);
-      })
+
     }
   },
 
