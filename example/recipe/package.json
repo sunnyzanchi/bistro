@@ -1,9 +1,0 @@
-{
-  "name": "{<appName>}",
-  "description": "{<description>}",
-  "dependencies": {
-    "{<server | lower>}": "*"
-  },
-  "devDependencies": {
-  }
-}

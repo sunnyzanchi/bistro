@@ -6,6 +6,7 @@ const cols = require('columnify');
 const fs = require('fs');
 const inquirer = require('inquirer');
 const mkdirp = require('mkdirp');
+const ncp = require('ncp').ncp;
 const os = require('os');
 const path = require('path');
 const pkg = require('./package.json');
@@ -38,7 +39,12 @@ const cmd = {
         console.log('Use bistro' + chalk.cyan(' update') + ' [name] to update it');
         return;
       }
+
       mkdirp(path.join(home, name));
+      console.log(recipePath);
+      ncp('./', recipePath, function(err){
+        if(err) console.log(err);
+      });
     }
   },
 
@@ -47,9 +53,7 @@ const cmd = {
     args.shift();
     const home = path.join(os.homedir(), 'bistro');
 
-    if(args.length){
-      console.log(args);
-    }
+    if(args.length) cookRecipe({recipe: args[0]});
     else{
       const recipes = fs.readdirSync(home);
       inquirer.prompt([
@@ -59,7 +63,22 @@ const cmd = {
           type: 'list',
           choices: recipes
         }
-      ]).then(answers=>{});
+      ]).then(cookRecipe);
+    }
+
+    function cookRecipe({recipe}){
+      const cookPath = path.join(home, recipe);
+      const recipePath = path.join(cookPath , 'recipe');
+      const indexPath = path.join(cookPath, 'index.js');
+
+      if(fs.existsSync(indexPath)){
+        console.log('exists!');
+        console.log(indexPath);
+        const index = require(indexPath);
+      }
+      ncp(recipePath, './', function(err){
+        if(err) console.log(err);
+      })
     }
   },
 
@@ -82,6 +101,8 @@ const cmd = {
       '-s --silent': 'Don\'t display output'
     };
 
+    console.log(boxd([' ★ Welcome to Bistro! ★ ', 'v' + pkg.version],
+                    {centered: true, consoleCentered: true}));
     console.log(cols(text,  {showHeaders: false, maxWidth: process.stdout.columns - 13}));
   }
 };
@@ -91,10 +112,6 @@ if(args.v || args.version){
   console.log(pkg.version);
   process.exit();
 }
-
-if(!args.s && !args.silent) // Silent flag
-  console.log(boxd([' ★ Welcome to Bistro! ★ ', 'v' + pkg.version],
-                  {centered: true, consoleCentered: true}));
 
 // Check if command exists
 if(cmd[args._[0]]) cmd[args._[0]](args);
